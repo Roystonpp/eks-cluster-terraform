@@ -6,3 +6,4 @@ variable "enable_nat_gateway" {}
 variable "single_nat_gateway" {}
 variable "enable_dns_hostnames" {}
 variable "public_subnet_tags" {}
+variable "private_subnet_tags" {}
