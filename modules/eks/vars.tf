@@ -1,2 +1,4 @@
 variable "cluster_name" {}
-variable "" {}
+variable "cluster_version" {}
+variable "subnets" {}
+variable "vpc_id" {}
