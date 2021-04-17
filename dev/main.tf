@@ -37,3 +37,10 @@ module "eks" {
   subnets         = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
 }
+
+module "worker-sg" {
+  source = "../modules/worker-sg"
+
+  name_prefix = "worker_group_sg"
+  vpc_id      = module.vpc.vpc_id
+}
