@@ -2,6 +2,22 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster_auth" {
+  name = module.eks.cluster_id
+}
+
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.cluster_auth.token
+  load_config_file       = false
+  version                = "~>1.11"
+}
+
 locals {
   cluster_name = "my-cluster"
 }
@@ -36,6 +52,8 @@ module "eks" {
   cluster_version = "1.17"
   subnets         = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
+  endpoint_private_access = false
+  endpoint_public_access  = true
 }
 
 module "worker-sg" {
